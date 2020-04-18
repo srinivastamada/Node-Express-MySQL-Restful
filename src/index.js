@@ -10,12 +10,7 @@ app.use(bodyParser.json());
 
 /* Request validation */
 const { validate, ValidationError, Joi } = require('express-validation');
-app.use(function (err, req, res, next) {
-  if (err instanceof ValidationError) {
-    return res.status(err.statusCode).json(err);
-  }
-  return res.status(500).json(err);
-});
+
 
 app.get('/users', async (req, res, next) => {
   try {
@@ -64,6 +59,13 @@ app.post('/signup', validate(signupValidation), async (req, res, next) => {
     res.json(err);
   }
 });
+
+app.use(function (err, req, res, next) {
+    if (err instanceof ValidationError) {
+      return res.status(err.statusCode).json(err);
+    }
+    return res.status(500).json(err);
+  });
 
 app.listen(PORT, () => {
   console.log('Server is running on PORT:', PORT);
