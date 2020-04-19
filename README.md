@@ -10,18 +10,20 @@ npm intall
 npm run dev
 ```
 
+http://localhost:3030/
+
 ## Product Server 
 ```
 npm run start:prod
 ```
 
-##GET
+## GET
 ```
 http://localhost:3030/users
 http://localhost:3030/user/user_id
 ```
 
-##POST
+## POST
 ```
 http://localhost:3030/signup
 http://localhost:3030/messages
