@@ -46,7 +46,7 @@ const signup = async (postData) => {
   const password = postData.password;
 
   const salt = bcrypt.genSaltSync();
-  const encryptedPassword = crypt.hashSync(password, salt);
+  const encryptedPassword = bcrypt.hashSync(password, salt);
   const promise = new Promise((resolve, reject) => {
     connection.query(
       'INSERT INTO users (username,email,password) VALUES ("' +
