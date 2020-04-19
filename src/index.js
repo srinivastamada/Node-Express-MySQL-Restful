@@ -60,6 +60,64 @@ app.post('/signup', validate(signupValidation), async (req, res, next) => {
   }
 });
 
+
+/* Send message validation*/
+const sendMessageValidation = {
+  body: Joi.object({
+    uid: Joi.number().integer().required(),
+    message: Joi.number().integer().required()
+  }),
+};
+
+app.post('/sendMessage', validate(sendMessageValidation), async (req, res, next) => {
+  const postData = req.body;
+  try {
+    queries.sendMessage(postData).then((data) => {
+      res.json({ status: 'success' });
+    });
+  } catch (err) {
+    res.json(err);
+  }
+});
+
+/*  messages validation*/
+const messagesValidation = {
+  body: Joi.object({
+    uid: Joi.number().integer().required()
+  }),
+};
+
+app.post('/messages', validate(messagesValidation), async (req, res, next) => {
+  const postData = req.body;
+  try {
+    queries.messages(postData).then((data) => {
+      res.json({ status: 'success' });
+    });
+  } catch (err) {
+    res.json(err);
+  }
+});
+
+/*  message delete validation*/
+const messageValidation = {
+  params: Joi.object({
+    uid: Joi.number().integer().required(),
+    mid: Joi.number().integer().required()
+  }),
+};
+
+app.delete('/message/:uid/:mid', validate(messageValidation), async (req, res, next) => {
+  const uid = req.params.uid;
+  const mid = req.params.mid;
+  try {
+    queries.messageDelete(uid, mid).then((data) => {
+      res.json({ status: 'success' });
+    });
+  } catch (err) {
+    res.json(err);
+  }
+});
+
 app.use(function (err, req, res, next) {
     if (err instanceof ValidationError) {
       return res.status(err.statusCode).json(err);

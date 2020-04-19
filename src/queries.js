@@ -68,8 +68,70 @@ const signup = async (postData) => {
   return promise;
 };
 
+const sendMessage = async (postData) => {
+  const uid = postData.uid;
+  const message = postData.message;
+  const promise = new Promise((resolve, reject) => {
+    connection.query(
+      'INSERT INTO messages (message,uid_fk) VALUES ("' +
+        message +
+        '","' +
+        uid +
+        '")',
+      function (error, data, fields) {
+        if (error) {
+          reject(err);
+        } else {
+          resolve(data);
+        }
+      }
+    );
+  });
+  return promise;
+};
+
+const messages = async (postData) => {
+  const uid = postData.uid;
+  const promise = new Promise((resolve, reject) => {
+    connection.query(
+      'SELECT * FROM messages WHERE uid_fk = "' + uid + '"',
+      function (error, data, fields) {
+        if (error) {
+          reject(err);
+        } else {
+          resolve(data);
+        }
+      }
+    );
+  });
+  return promise;
+};
+
+const messageDelete = async (uid, mid) => {
+  const promise = new Promise((resolve, reject) => {
+    connection.query(
+      'DELETE FROM messages WHERE uid_fk = "' +
+        uid +
+        '"AND mid = "' +
+        mid +
+        '"',
+      function (error, data, fields) {
+        if (error) {
+          reject(err);
+        } else {
+          resolve(data);
+        }
+      }
+    );
+  });
+  return promise;
+};
+
 module.exports = {
   users,
   user,
   signup,
+  sendMessage,
+  messages,
+  messageDelete,
 };
